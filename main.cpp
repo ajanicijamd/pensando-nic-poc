@@ -96,6 +96,11 @@ int main(int argc, char* argv[])
   capture_stream >> json_obj;
   cout << "NIC = " << json_obj["nic"] << endl;
   cout << "CNP = " << json_obj["CNP"] << endl;
+  cout << "Bandwidth:" << endl;
+  cout << "tx_pps: " << json_obj["tx_pps"] << endl;
+  cout << "tx_bps: " << json_obj["tx_bps"] << endl;
+  cout << "rx_pps: " << json_obj["rx_pps"] << endl;
+  cout << "rx_bps: " << json_obj["rx_bps"] << endl;
 
   pclose(stream);
   return 0;
