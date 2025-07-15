@@ -18,4 +18,4 @@ clean:
 rebuild: clean build
 
 run: build
-	./prog 43000070-0100-0000-4242-0490812c77b0
+	./prog --lif 43000070-0100-0000-4242-0490812c77b0

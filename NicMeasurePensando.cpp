@@ -7,9 +7,10 @@
 
 using namespace std;
 
-NicMeasurePensando::NicMeasurePensando(const std::string& name, const std::string& lif)
+NicMeasurePensando::NicMeasurePensando(const std::string& name, const std::string& lif, const std::string& card)
     : _name(name),
-      _lif(lif)
+      _lif(lif),
+      _card(card)
 {}
 
 unsigned long NicMeasurePensando::GetCNPCount()
@@ -42,6 +43,45 @@ unsigned long NicMeasurePensando::GetCNPCount()
   }
 
   return result;
+}
+
+void NicMeasurePensando::GetRxTx(
+      unsigned long& tx_pps,
+      unsigned long& tx_bps,
+      unsigned long& rx_pps,
+      unsigned long& rx_bps
+    )
+{
+  string json_str;
+  unsigned long result = 0;
+
+  try
+  {
+    char cmd[1024];
+    snprintf(cmd, sizeof(cmd), "/usr/sbin/nicctl show port statistics --rate --json --card %s",
+      _card.c_str());
+    json_str = GetJSON(cmd);
+
+    json json_obj;
+    ParseJSON(json_str, json_obj);
+    auto nic0 = json_obj["nic"][0];
+    auto port = nic0["port"][0];
+    auto tx_pps_str = port["tx_pps"];
+    auto tx_bps_str = port["tx_bps"];
+    auto rx_pps_str = port["rx_pps"];
+    auto rx_bps_str = port["rx_bps"];
+
+    tx_pps = atol(string(tx_pps_str).c_str());
+    tx_bps = atol(string(tx_bps_str).c_str());
+    rx_pps = atol(string(rx_pps_str).c_str());
+    rx_bps = atol(string(rx_bps_str).c_str());
+  }
+  catch (nlohmann::detail::parse_error& er)
+  {
+    char buffer[1024];
+    snprintf(buffer, sizeof(buffer), "Error parsing JSON: %s", er.what());
+    throw string(buffer);
+  }
 }
 
 // Split string to tokens, with blanks as separators.
