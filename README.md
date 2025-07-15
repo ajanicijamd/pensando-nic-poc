@@ -94,3 +94,107 @@ and for enp229s0 we see this:
        configuration: autonegotiation=off broadcast=yes driver=ionic driverversion=5.15.0-143-generic duplex=full firmware=1.110.1-a-1 latency=0 link=no multicast=yes
        resources: iomemory:47f0-47ef irq:287 memory:c0300000-c0307fff memory:c0200000-c02fffff memory:47f84000000-47f87ffffff
 ````
+
+The command that gets the CNP count for the card is:
+
+    sudo nicctl show rdma queue-pair statistics --queue-pair-id 1 --lif 43000070-0100-0000-4242-0490812c77b0 --json
+
+which produces output like this:
+
+````
+{
+    "nic": [
+        {
+            "id": "42424650-4c32-3530-3330-304131000000",
+            "lif": [
+                {
+                    "id": "43000070-0100-0000-4242-0490812c77b0",
+                    "queue_pair": [
+                        {
+                            "queue_pair_id": "1",
+                            "send_queue": {
+                                "requester_tx_statistics": {
+                                    "num_byte": "0",
+                                    "num_packet": "0",
+                                    "num_send_msg": "0",
+                                    "num_write_msg": "0",
+                                    "num_read_request_msg": "0",
+                                    "num_atomic_fna_msg": "0",
+                                    "num_atomic_compare_and_swap_msg": "0",
+                                    "num_send_msgs_invalid_remote_key_error": "0",
+                                    "num_send_imm_msg": "0",
+                                    "num_write_imm_msg": "0",
+                                    "max_num_of_packets_sent_per_msg": "0",
+                                    "num_non_packet_generating_request": "0",
+                                    "type1_bind_memory_window_request": "0",
+                                    "type2_bind_memory_window_request": "0",
+                                    "phy_mem_region_fast_registration_req": "0",
+                                    "local_invalidate_request": "0",
+                                    "num_wqe_with_inline_data": "0",
+                                    "num_local_ack_timeouts": "0",
+                                    "receiver_not_ready_timeout": "0",
+                                    "times_send_queue_is_drained": "0",
+                                    "num_cnp_sent": "0"
+                                },
+                                "requester_rx_statistcs": {
+                                    "num_byte": "0",
+                                    "num_packet": "0",
+                                    "num_ack_msg": "0",
+                                    "num_atomic_ack_msg": "0",
+                                    "num_read_response_msg": "0",
+                                    "num_read_response_packet": "0",
+                                    "num_feedback": "0",
+                                    "max_packets_received_per_msg": "0",
+                                    "num_packets_with_ecn_marking": "0"
+                                }
+                            },
+                            "receive_queue": {
+                                "responder_tx_statistics": {
+                                    "num_byte": "0",
+                                    "num_packet": "0",
+                                    "num_read_resp_msg": "0",
+                                    "num_read_resp_pkt": "0",
+                                    "num_ack_msg": "0",
+                                    "num_atomic_response_msg": "0",
+                                    "max_num_of_pkts_sent_per_msg": "0",
+                                    "receiver_not_ready_rnrerror": "0",
+                                    "num_sequence_error": "0",
+                                    "num_dcqcn_rp_additive_increase": "0",
+                                    "num_dcqcn_rp_fast_recovery": "0",
+                                    "num_dcqcn_rp_hyper_increase": "0",
+                                    "num_dcqcn_rp_byte_threshold_hit": "0",
+                                    "num_dcqcn_rp_alpha_timer_expiry_event": "0",
+                                    "num_dcqcn_rp_timer_expiry_event": "0",
+                                    "num_rp_max_rate_hit": "0"
+                                },
+                                "responder_rx_statistics": {
+                                    "num_byte": "0",
+                                    "num_packet": "0",
+                                    "num_send_msg": "0",
+                                    "num_write_msg": "0",
+                                    "num_read_msg": "0",
+                                    "num_atomic_fetch_and_add_msg": "0",
+                                    "num_atomic_compare_and_swap_msg": "0",
+                                    "num_send_msgs_with_invalid_remote_key_error": "0",
+                                    "num_send_imm_msg": "0",
+                                    "num_write_imm_msg": "0",
+                                    "num_packets_with_ack_requested": "0",
+                                    "num_packets_with_ecn_marking": "0",
+                                    "num_cnps_received": "0",
+                                    "max_recirculation_exceeded_packet_drop": "0",
+                                    "num_mem_window_invalidate_msg": "0",
+                                    "num_duplicate_pkts_with_write_send_opcode": "0",
+                                    "num_duplicate_read_atomic_backtrack_pkt": "0",
+                                    "num_duplicate_read_atomic_drop_pkt": "0"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+````
+
+Note the field "num_cnp_sent" in the object "requester_tx_statistics".
