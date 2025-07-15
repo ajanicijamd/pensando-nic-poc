@@ -31,9 +31,9 @@ Run:
 
 We can also run prog directly:
 
-    ./prog 43000070-0100-0000-4242-0490812c77b0
+    ./prog --lif 43000070-0100-0000-4242-0490812c77b0 --card 42424650-4c32-3530-3330-304131000000
 
-The command's parameter is lif ID of the NIC. How did we get that value?
+The command's parameters is lif ID of the NIC and card ID. How did we get those values?
 
 - Command
     sudo nicctl show lif --json
@@ -198,3 +198,33 @@ which produces output like this:
 ````
 
 Note the field "num_cnp_sent" in the object "requester_tx_statistics".
+
+Command that gets the rate is:
+
+````
+sudo nicctl show port statistics --json --rate
+````
+
+This command's output:
+
+````
+{
+    "nic": [
+        {
+            "id": "42424650-4c32-3530-3330-304131000000",
+            "port": [
+                {
+                    "id": "0490812c-77b0-4242-4242-000011010000",
+                    "tx_pps": "0",
+                    "tx_bps": "0",
+                    "rx_pps": "0",
+                    "rx_bps": "0"
+                }
+            ]
+        }
+    ]
+}
+
+````
+
+From that output we can see the card ID: 42424650-4c32-3530-3330-304131000000.
