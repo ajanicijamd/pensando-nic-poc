@@ -14,6 +14,10 @@ user program call it? The solution in this POC is to call it in two steps:
 - nicctl-runner is owned by root and has setuid flag, so it can call
   nicctl.
 
+Alternatively, we can use nicctl-runner directly with sudo:
+
+    sudo ./nicctl-runner --lif 43000070-0100-0000-4242-0490812c77b0 --card 42424650-4c32-3530-3330-304131000000
+
 ### Prerequisites
 
 This code uses [nlohmann/json](https://github.com/nlohmann/json)
