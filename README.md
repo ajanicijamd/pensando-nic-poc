@@ -14,6 +14,12 @@ user program call it? The solution in this POC is to call it in two steps:
 - nicctl-runner is owned by root and has setuid flag, so it can call
   nicctl.
 
+### Prerequisites
+
+This code uses [nlohmann/json](https://github.com/nlohmann/json)
+header-only library for JSON parsing. The library can be built and installed
+from source, or on Ubuntu from the package nlohmann-json3-dev.
+
 ### Building
 
 Build prog and nicctl-runner by:
